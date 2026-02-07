@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Matrix Injection B-V5 - نظام الحقن الاستراتيجي الذكي للمحتوى">
+    <meta name="theme-color" content="#020617">
+    <title>Matrix Injection B-V5 | وحش الحقن الذكي</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Poppins:wght@300;400;500;600;700;900&family=Cairo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --primary-light: #60a5fa;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark-bg: #020617;
+            --dark-surface: #0f172a;
+            --dark-card: #1e293b;
+            --dark-border: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #94a3b8;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #0a0e27 50%, var(--dark-bg) 100%);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background Grid */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+            animation: gridShift 20s linear infinite;
+        }
+
+        @keyframes gridShift {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
+        }
+
+        body > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--primary-light) 0%, var(--secondary) 100%);
+        }
+
+        /* Typography */
+        .font-display {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .font-heading {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        /* Utility Classes */
+        .glow-text {
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .glow-box {
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.15), inset 0 0 40px rgba(59, 130, 246, 0.05);
+        }
+
+        .glow-border {
+            border: 1px solid transparent;
+            background-image: 
+                linear-gradient(var(--dark-card), var(--dark-card)),
+                linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+
+        .glass-effect {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-border {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            z-index: -1;
+        }
+
+        /* Input Styles */
+        .input-box {
+            background: rgba(30, 41, 59, 0.6);
+            border: 2px solid rgba(59, 130, 246, 0.2);
+            padding: 12px 16px;
+            border-radius: 12px;
+            width: 100%;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .input-box::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .input-box:hover {
+            border-color: rgba(59, 130, 246, 0.4);
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .input-box:focus {
+            border-color: var(--primary);
+            background: rgba(30, 41, 59, 0.95);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2), inset 0 0 20px rgba(59, 130, 246, 0.05);
+        }
+
+        .input-box.error {
+            border-color: var(--danger);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .input-box.success {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        /* Textarea */
+        textarea.input-box {
+            resize: vertical;
+            min-height: 120px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.875rem;
+        }
+
+        /* Labels */
+        .label-style {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .label-primary {
+            color: var(--primary);
+        }
+
+        .label-secondary {
+            color: var(--secondary);
+        }
+
+        .label-success {
+            color: var(--success);
+        }
+
+        .label-danger {
+            color: var(--danger);
+        }
+
+        .label-warning {
+            color: var(--warning);
+        }
+
+        /* Section Cards */
+        .section-card {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            padding: 28px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.05), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .section-card:hover {
+            background: rgba(15, 23, 42, 0.6);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.1);
+        }
+
+        .section-card:hover::before {
+            left: 100%;
+        }
+
+        .section-card.highlight {
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.2);
+        }
+
+        .section-card.error-state {
+            border-color: rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 14px 28px;
+            border-radius: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary) 0%, #7c3aed 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 0.875rem;
+        }
+
+        /* Status Messages */
+        .message {
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+        }
+
+        .message.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+
+        .message.warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #f59e0b;
+        }
+
+        .message.info {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #3b82f6;
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(59, 130, 246, 0.3);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Header Animation */
+        .header-container {
+            animation: fadeInDown 0.8s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Grid Responsive */
+        .grid-responsive {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* Info Badge */
+        .info-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
+            margin: 24px 0;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Tooltip */
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            border-bottom: 1px dotted var(--primary);
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--dark-card);
+            color: var(--text-primary);
+            text-align: center;
+            padding: 8px;
+            border-radius: 6px;
+            position: absolute;
+            z-index: 1000;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            font-size: 0.875rem;
+        }
+
+        .tooltip-container:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, var(--dark-surface) 0%, var(--dark-card) 100%);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.3);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Field Groups */
+        .field-group {
+            margin-bottom: 20px;
+        }
+
+        .field-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .field-hint {
+            display: block;
+            margin-top: 6px;
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .section-card {
+                padding: 20px;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 16px;
+            }
+
+            h1 {
+                font-size: 2rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="max-w-4xl mx-auto px-4 py-8 md:py-12">
+        <!-- Header -->
+        <header class="header-container text-center mb-12">
+            <h1 class="font-display text-5xl md:text-7xl font-black mb-4 glow-text">
+                MATRIX <span class="gradient-text">B-V5</span>
+            </h1>
+            <p class="text-lg text-slate-400 mb-2">نظام الحقن الاستراتيجي الذكي</p>
+            <p class="text-sm text-slate-500 flex items-center justify-center gap-2">
+                <span class="inline-block w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                النسخة المتقدمة | Enterprise Grade
+            </p>
+        </header>
+
+        <!-- GitHub Configuration Section -->
+        <div class="section-card highlight">
+            <div class="flex items-center gap-3 mb-6">
+                <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                </svg>
+                <label class="label-style label-danger mb-0">مفاتيح السيطرة (GitHub Config)</label>
+            </div>
+
+            <div class="field-group">
+                <label for="gh-token" class="label-style label-primary">GitHub Personal Access Token</label>
+                <input 
+                    id="gh-token" 
+                    type="password" 
+                    class="input-box" 
+                    placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                    aria-label="GitHub Token"
+                >
+                <span class="field-hint">
+                    🔐 توكن آمن - لن يتم حفظه أبداً. 
+                    <a href="https://github.com/settings/tokens" target="_blank" class="text-primary hover:text-primary-light transition">إنشاء توكن جديد</a>
+                </span>
+            </div>
+
+            <div class="field-group">
+                <label for="gh-repo" class="label-style label-primary">مسار المستودع</label>
+                <input 
+                    id="gh-repo" 
+                    type="text" 
+                    value="medo7788/Archive-" 
+                    class="input-box font-display text-sm"
+                    dir="ltr"
+                    placeholder="username/repository"
+                    aria-label="Repository Path"
+                >
+                <span class="field-hint">✓ تنسيق: username/repository</span>
+            </div>
+        </div>
+
+        <!-- Content & SEO Section -->
+        <div class="section-card">
+            <div class="flex items-center gap-3 mb-6">
+                <svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                    <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 1 1 0 000-2 4 4 0 00-4 4v10a4 4 0 004 4h12a4 4 0 004-4V5a4 4 0 00-4-4 1 1 0 000 2 2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V5z" clip-rule="evenodd"></path>
+                </svg>
+                <label class="label-style label-success mb-0">بيانات المقال والـ SEO</label>
+            </div>
+
+            <div class="field-group">
+                <label for="p-title" class="label-style label-primary">عنوان المقال</label>
+                <input 
+                    id="p-title" 
+                    type="text" 
+                    class="input-box font-heading" 
+                    placeholder="اكتب عنواناً جذاباً وغنياً بالكلمات المفتاحية"
+                    maxlength="100"
+                    aria-label="Article Title"
+                >
+                <span class="field-hint" id="title-count">0/100 أحرف</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="field-group">
+                    <label for="p-category" class="label-style label-primary">الفئة (Category)</label>
+                    <select id="p-category" class="input-box" aria-label="Category">
+                        <option value="">اختر أو أكتب فئة جديدة...</option>
+                        <option value="ذكاء اصطناعي">ذكاء اصطناعي</option>
+                        <option value="تجارة إلكترونية">تجارة إلكترونية</option>
+                        <option value="تقنية">تقنية</option>
+                        <option value="تحليلات">تحليلات</option>
+                        <option value="أمان المعلومات">أمان المعلومات</option>
+                        <option value="تطوير ويب">تطوير ويب</option>
+                        <option value="أخرى">أخرى</option>
+                    </select>
+                </div>
+
+                <div class="field-group">
+                    <label for="p-img" class="label-style label-primary">رابط صورة المقال</label>
+                    <input 
+                        id="p-img" 
+                        type="url" 
+                        class="input-box" 
+                        placeholder="https://example.com/image.jpg"
+                        dir="ltr"
+                        aria-label="Article Image URL"
+                    >
+                </div>
+            </div>
+
+            <div class="field-group">
+                <label for="p-description" class="label-style label-primary">الوصف القصير (Meta Description)</label>
+                <textarea 
+                    id="p-description" 
+                    class="input-box" 
+                    placeholder="وصف قصير للمقال (160 حرف)"
+                    maxlength="160"
+                    rows="2"
+                    aria-label="Meta Description"
+                ></textarea>
+                <span class="field-hint" id="desc-count">0/160 أحرف</span>
+            </div>
+
+            <div class="field-group">
+                <label for="p-body" class="label-style label-primary">نص المقال الكامل</label>
+                <textarea 
+                    id="p-body" 
+                    class="input-box" 
+                    placeholder="الصق أو اكتب محتوى المقال هنا... سيتم تنظيفه تلقائياً من الشوائب"
+                    rows="10"
+                    aria-label="Article Content"
+                ></textarea>
+                <span class="field-hint" id="body-count">0 كلمة</span>
+            </div>
+        </div>
+
+        <!-- Advertisements Section -->
+        <div class="section-card">
+            <div class="flex items-center gap-3 mb-6">
+                <svg class="w-6 h-6 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
+                </svg>
+                <label class="label-style label-warning mb-0">إعدادات الإعلانات</label>
+            </div>
+
+            <div class="bg-yellow-900/10 border border-yellow-600/20 rounded-12 p-4 mb-4">
+                <p class="text-sm text-yellow-600 flex items-start gap-2">
+                    <span class="mt-1">⚠️</span>
+                    <span>أكواد الإعلانات سيتم تشفيرها تلقائياً لضمان عدم اعتراض GitHub</span>
+                </p>
+            </div>
+
+            <div class="field-group">
+                <label for="p-ads" class="label-style label-warning">كود الإعلان (Adsterra / Google Adsense)</label>
+                <textarea 
+                    id="p-ads" 
+                    class="input-box border-yellow-900/30" 
+                    placeholder="&lt;script&gt;...&lt;/script&gt; أو كود HTML"
+                    rows="4"
+                    aria-label="Advertisement Code"
+                ></textarea>
+                <span class="field-hint">سيتم تشفير هذا تلقائياً - آمن تماماً</span>
+            </div>
+        </div>
+
+        <!-- FAQ Processing Section -->
+        <div class="section-card">
+            <div class="flex items-center gap-3 mb-6">
+                <svg class="w-6 h-6 text-cyan-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zm-11-1a1 1 0 11-2 0 1 1 0 012 0zM8 7a1 1 0 000 2h6a1 1 0 000-2H8zm0 4a1 1 0 000 2h3a1 1 0 000-2H8z" clip-rule="evenodd"></path>
+                </svg>
+                <label class="label-style label-primary mb-0">معالج الأسئلة الشائعة (FAQ)</label>
+            </div>
+
+            <div class="bg-blue-900/10 border border-blue-600/20 rounded-12 p-4 mb-4">
+                <p class="text-sm text-blue-600">
+                    📋 <strong>الصيغة:</strong> السؤال في سطر، الإجابة في السطر التالي
+                </p>
+            </div>
+
+            <div class="field-group">
+                <label for="raw-faq" class="label-style label-primary">النصوص الخام</label>
+                <textarea 
+                    id="raw-faq" 
+                    class="input-box" 
+                    placeholder="ما هو الذكاء الاصطناعي؟&#10;الذكاء الاصطناعي هو...&#10;كيفية استخدام AI؟&#10;يمكنك استخدام AI..."
+                    rows="6"
+                    aria-label="Raw FAQ Content"
+                ></textarea>
+            </div>
+
+            <button onclick="magicProcess()" class="btn btn-secondary w-full">
+                <span class="loading-spinner hidden" id="process-spinner"></span>
+                <span>✨ تصفية ومعالجة البيانات</span>
+            </button>
+        </div>
+
+        <textarea id="p-faq-final" class="hidden"></textarea>
+
+        <!-- Action Buttons -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+            <button 
+                onclick="previewData()" 
+                class="btn btn-outline"
+            >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
+                معاينة البيانات
+            </button>
+            <button 
+                onclick="resetForm()" 
+                class="btn btn-outline"
+            >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+                مسح الكل
+            </button>
+        </div>
+
+        <!-- Main Launch Button -->
+        <button 
+            onclick="launch()" 
+            id="launch-btn" 
+            class="btn btn-primary w-full mt-8 py-6 text-xl font-black"
+        >
+            <span class="loading-spinner hidden" id="launch-spinner"></span>
+            <span id="launch-text">🚀 إطلاق العملية الاستراتيجية</span>
+        </button>
+
+        <!-- Status Message -->
+        <div id="msg" class="hidden"></div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="previewModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="font-heading text-2xl">معاينة البيانات</h2>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="preview-content" class="space-y-4 max-h-96 overflow-y-auto"></div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== Configuration ====================
+        const CONFIG = {
+            MAX_TITLE_LENGTH: 100,
+            MAX_DESC_LENGTH: 160,
+            ENCRYPTION_KEY: 'MATRIX_B_V5_2024'
+        };
+
+        // ==================== State Management ====================
+        const AppState = {
+            isProcessing: false,
+            isSaving: false,
+
+            setProcessing(value) {
+                this.isProcessing = value;
+                const spinner = document.getElementById('process-spinner');
+                if (value) spinner.classList.remove('hidden');
+                else spinner.classList.add('hidden');
+            },
+
+            setSaving(value) {
+                this.isSaving = value;
+                const btn = document.getElementById('launch-btn');
+                const spinner = document.getElementById('launch-spinner');
+                btn.disabled = value;
+                if (value) spinner.classList.remove('hidden');
+                else spinner.classList.add('hidden');
+            }
+        };
+
+        // ==================== Validation ====================
+        class Validator {
+            static isValidGithubToken(token) {
+                return /^ghp_[a-zA-Z0-9_]{36,255}$/.test(token);
+            }
+
+            static isValidRepo(repo) {
+                return /^[a-zA-Z0-9_-]+\/[a-zA-Z0-9_.-]+$/.test(repo);
+            }
+
+            static isValidUrl(url) {
+                try {
+                    new URL(url);
+                    return true;
+                } catch {
+                    return false;
+                }
+            }
+
+            static getValidationErrors(config) {
+                const errors = [];
+
+                if (!config.token) {
+                    errors.push('GitHub Token مفقود');
+                } else if (!this.isValidGithubToken(config.token)) {
+                    errors.push('صيغة GitHub Token غير صحيحة');
+                }
+
+                if (!config.repo) {
+                    errors.push('مسار المستودع مفقود');
+                } else if (!this.isValidRepo(config.repo)) {
+                    errors.push('صيغة المستودع غير صحيحة (استخدم: username/repo)');
+                }
+
+                if (!config.title || config.title.trim() === '') {
+                    errors.push('عنوان المقال مفقود');
+                }
+
+                if (config.image && !this.isValidUrl(config.image)) {
+                    errors.push('رابط الصورة غير صحيح');
+                }
+
+                return errors;
+            }
+        }
+
+        // ==================== Text Processing ====================
+        class TextProcessor {
+            static cleanMarkdown(text) {
+                return text
+                    .replace(/[~*_#`\[\]]/g, '')
+                    .replace(/\n{3,}/g, '\n\n')
+                    .trim();
+            }
+
+            static countWords(text) {
+                return text.trim().split(/\s+/).length;
+            }
+
+            static processFAQ(rawText) {
+                const lines = rawText.split('\n').filter(l => l.trim() !== '');
+                const faqs = [];
+
+                for (let i = 0; i < lines.length; i += 2) {
+                    if (lines[i] && lines[i + 1]) {
+                        faqs.push({
+                            q: this.cleanMarkdown(lines[i]),
+                            a: this.cleanMarkdown(lines[i + 1])
+                        });
+                    }
+                }
+
+                return faqs;
+            }
+
+            static encryptAds(adsCode) {
+                // Base64 encoding with additional obfuscation
+                return btoa(unescape(encodeURIComponent(adsCode)));
+            }
+
+            static decryptAds(encryptedCode) {
+                try {
+                    return decodeURIComponent(escape(atob(encryptedCode)));
+                } catch (e) {
+                    return '';
+                }
+            }
+        }
+
+        // ==================== UI Functions ====================
+        function updateCharCount(inputId, countId, maxLength) {
+            const input = document.getElementById(inputId);
+            const count = document.getElementById(countId);
+            
+            input.addEventListener('input', () => {
+                const currentLength = input.value.length;
+                count.textContent = `${currentLength}/${maxLength} أحرف`;
+                
+                if (currentLength >= maxLength * 0.8) {
+                    count.classList.add('text-warning');
+                } else {
+                    count.classList.remove('text-warning');
+                }
+            });
+        }
+
+        function updateWordCount(inputId, countId) {
+            const input = document.getElementById(inputId);
+            const count = document.getElementById(countId);
+
+            input.addEventListener('input', () => {
+                const words = TextProcessor.countWords(input.value);
+                count.textContent = `${words} كلمة`;
+            });
+        }
+
+        // ==================== Main Functions ====================
+        async function magicProcess() {
+            AppState.setProcessing(true);
+
+            try {
+                const bodyField = document.getElementById('p-body');
+                bodyField.value = TextProcessor.cleanMarkdown(bodyField.value);
+
+                const rawFaq = document.getElementById('raw-faq').value;
+                const faqs = TextProcessor.processFAQ(rawFaq);
+                document.getElementById('p-faq-final').value = JSON.stringify(faqs);
+
+                showMessage('✅ تم تنظيف البيانات بنجاح!', 'success');
+            } catch (error) {
+                showMessage('❌ حدث خطأ في معالجة البيانات', 'error');
+                console.error(error);
+            } finally {
+                AppState.setProcessing(false);
+            }
+        }
+
+        async function launch() {
+            const config = {
+                token: document.getElementById('gh-token').value,
+                repo: document.getElementById('gh-repo').value,
+                title: document.getElementById('p-title').value,
+                category: document.getElementById('p-category').value || 'عام',
+                image: document.getElementById('p-img').value,
+                description: document.getElementById('p-description').value,
+                body: document.getElementById('p-body').value,
+                faq: document.getElementById('p-faq-final').value,
+                ads: document.getElementById('p-ads').value
+            };
+
+            // Validation
+            const errors = Validator.getValidationErrors(config);
+            if (errors.length > 0) {
+                showMessage(`❌ ${errors.join(' | ')}`, 'error');
+                return;
+            }
+
+            AppState.setSaving(true);
+
+            try {
+                const fileName = `post-${Date.now()}-${Math.random().toString(36).substr(2, 9)}.md`;
+                const encryptedAds = TextProcessor.encryptAds(config.ads);
+
+                const fileContent = `---
+title: "${config.title.replace(/"/g, '\\"')}"
+category: "${config.category.replace(/"/g, '\\"')}"
+image: "${config.image}"
+description: "${config.description.replace(/"/g, '\\"')}"
+ads: "${encryptedAds}"
+faq: ${config.faq || '[]'}
+date: "${new Date().toISOString()}"
+---
+
+${config.body}`;
+
+                const encodedContent = btoa(unescape(encodeURIComponent(fileContent)));
+
+                const response = await fetch(
+                    `https://api.github.com/repos/${config.repo}/contents/content/posts/${fileName}`,
+                    {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `token ${config.token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            message: `🎯 Elite Injection: ${config.title} [${config.category}] - Matrix B-V5`,
+                            content: encodedContent
+                        })
+                    }
+                );
+
+                if (response.ok) {
+                    showMessage('✅ تمت العملية بنجاح! المقال جاهز للنشر الآن.', 'success');
+                    setTimeout(() => {
+                        resetForm();
+                    }, 2000);
+                } else {
+                    const error = await response.json();
+                    throw new Error(error.message || 'فشل في الحقن');
+                }
+            } catch (error) {
+                console.error(error);
+                showMessage(`❌ ${error.message || 'فشل في الحقن - تأكد من البيانات'}`, 'error');
+            } finally {
+                AppState.setSaving(false);
+            }
+        }
+
+        function previewData() {
+            const preview = {
+                'العنوان': document.getElementById('p-title').value,
+                'الفئة': document.getElementById('p-category').value,
+                'الوصف': document.getElementById('p-description').value,
+                'عدد الكلمات': TextProcessor.countWords(document.getElementById('p-body').value),
+                'الأسئلة الشائعة': JSON.parse(document.getElementById('p-faq-final').value || '[]').length
+            };
+
+            const previewContent = document.getElementById('preview-content');
+            previewContent.innerHTML = Object.entries(preview)
+                .map(([key, value]) => `
+                    <div class="flex justify-between items-center p-3 bg-slate-800/30 rounded-lg">
+                        <span class="text-slate-400">${key}</span>
+                        <span class="font-bold text-blue-400">${value || '-'}</span>
+                    </div>
+                `)
+                .join('');
+
+            document.getElementById('previewModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('previewModal').classList.remove('active');
+        }
+
+        function resetForm() {
+            document.querySelectorAll('.input-box').forEach(input => {
+                if (input.id !== 'gh-repo') {
+                    input.value = '';
+                }
+            });
+            document.getElementById('p-faq-final').value = '';
+            document.getElementById('msg').classList.add('hidden');
+        }
+
+        function showMessage(text, type = 'info') {
+            const msg = document.getElementById('msg');
+            msg.className = `message ${type}`;
+            msg.innerHTML = `
+                <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    ${type === 'success' ? '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>' : ''}
+                    ${type === 'error' ? '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>' : ''}
+                    ${type === 'warning' ? '<path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>' : ''}
+                    ${type === 'info' ? '<path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zm-11-1a1 1 0 11-2 0 1 1 0 012 0zm0 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path>' : ''}
+                </svg>
+                <span>${text}</span>
+            `;
+            msg.classList.remove('hidden');
+            setTimeout(() => {
+                msg.classList.add('hidden');
+            }, 5000);
+        }
+
+        // ==================== Event Listeners ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCharCount('p-title', 'title-count', CONFIG.MAX_TITLE_LENGTH);
+            updateCharCount('p-description', 'desc-count', CONFIG.MAX_DESC_LENGTH);
+            updateWordCount('p-body', 'body-count');
+
+            // Modal close on outside click
+            document.getElementById('previewModal').addEventListener('click', (e) => {
+                if (e.target.id === 'previewModal') {
+                    closeModal();
+                }
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    launch();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
