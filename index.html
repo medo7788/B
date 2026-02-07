@@ -3,123 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matrix C2 Pro | نظام الحقن الاستخباراتي</title>
+    <title> وحش الحقن B | CLEANER </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background: #020617; color: #cbd5e1; }
-        .input-box { background: #0f172a; border: 1px solid #1e293b; padding: 15px; border-radius: 12px; width: 100%; outline: none; transition: 0.3s; }
-        .input-box:focus { border-color: #3b82f6; box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
-        label { display: block; margin-bottom: 8px; font-weight: bold; color: #3b82f6; font-size: 14px; }
+        body { font-family: 'Cairo', sans-serif; background: #020617; color: #e2e8f0; }
+        .input-box { background: #0f172a; border: 2px solid #1e293b; padding: 15px; border-radius: 12px; width: 100%; color: white; margin-bottom: 10px; }
+        .label-style { display: block; margin-bottom: 8px; font-weight: bold; color: #3b82f6; }
     </style>
 </head>
 <body class="p-4">
-    <div class="max-w-4xl mx-auto space-y-6">
-        <header class="text-center py-6">
-            <h1 class="text-3xl font-black text-white italic">MATRIX INJECTION SYSTEM v3</h1>
-            <p class="text-slate-500 text-sm">نظام تحويل التقارير إلى مقالات متصدرة للنتائج</p>
-        </header>
+    <div class="max-w-2xl mx-auto bg-slate-900/80 p-6 rounded-3xl border border-blue-900/30">
+        <h1 class="text-3xl font-black text-center text-blue-500 mb-8 italic">نظام الحقن الاحترافي V4 ⚡</h1>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <label>التوكن (GitHub Token):</label>
-                <input id="gh-token" type="password" class="input-box" placeholder="ghp_xxxx">
-            </div>
-            <div>
-                <label>المستودع (Target Repo):</label>
-                <input id="gh-repo" type="text" value="medo7788/Archive-" class="input-box" dir="ltr">
-            </div>
-        </div>
+        <label class="label-style">بيانات الربط (Token & Repo):</label>
+        <input id="gh-token" type="password" class="input-box" placeholder="التوكن السري (ghp_...)">
+        <input id="gh-repo" type="text" value="medo7788/Archive-" class="input-box" dir="ltr">
 
-        <hr class="border-slate-800">
+        <hr class="border-slate-800 my-6">
 
-        <div class="space-y-4">
-            <div>
-                <label>العنوان الرئيسي (H1):</label>
-                <input id="p-title" type="text" class="input-box text-white font-bold" placeholder="الدليل الشامل لسيادة نماذج الدخل الهجين 2026...">
-            </div>
+        <label class="label-style">محتوى المقال (سيتم تنظيفه تلقائياً):</label>
+        <input id="p-title" type="text" class="input-box" placeholder="عنوان المقال">
+        <input id="p-img" type="text" class="input-box text-sm" placeholder="رابط الصورة (Top4Top)">
+        <textarea id="p-body" rows="8" class="input-box" placeholder="الصق المقال هنا..."></textarea>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label>رابط الصورة (Top4Top):</label>
-                    <input id="p-img" type="text" class="input-box text-xs" placeholder="https://direct-link.com/image.jpg">
-                </div>
-                <div>
-                    <label>الكلمات المفتاحية (Keywords):</label>
-                    <input id="p-keys" type="text" class="input-box text-xs" placeholder="منصات البث، FAST، التجارة المباشرة">
-                </div>
-            </div>
+        <label class="label-style">كود الإعلان (أرباحك هنا 💰):</label>
+        <textarea id="p-ads" rows="3" class="input-box border-emerald-900/50" placeholder="ضع كود Adsterra أو Adsense هنا..."></textarea>
 
-            <div>
-                <label>وصف الميتا (Meta Description):</label>
-                <textarea id="p-meta" rows="2" class="input-box text-sm text-slate-400"></textarea>
-            </div>
-
-            <div>
-                <label>المقال الكامل (Markdown):</label>
-                <textarea id="p-body" rows="10" class="input-box text-sm font-mono" placeholder="الصق تحليل الفجوة والمحتوى هنا..."></textarea>
-            </div>
-
-            <div class="bg-blue-900/10 p-4 rounded-xl border border-blue-500/20">
-                <label class="text-blue-400">معالج أسئلة الجمهور (People Also Ask):</label>
-                <textarea id="raw-faq" rows="4" class="input-box bg-black text-xs mb-3" placeholder="الصق الأسئلة والإجابات ورا بعض كما في تقريرك..."></textarea>
-                <button onclick="magicFAQ()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-bold text-xs transition">تحويل للغة الآلة ✨</button>
-            </div>
+        <div class="bg-blue-950/20 p-4 rounded-xl mb-6">
+            <label class="label-style">معالج الأسئلة الذكي:</label>
+            <textarea id="raw-faq" rows="4" class="input-box bg-black text-xs" placeholder="السؤال\nالإجابة"></textarea>
+            <button onclick="magicProcess()" class="w-full bg-blue-600 py-3 rounded-xl font-bold">1. تنظيف وتجهيز البيانات ✨</button>
         </div>
 
         <textarea id="p-faq-final" class="hidden"></textarea>
 
-        <button onclick="launch()" id="launch-btn" class="w-full py-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black text-xl rounded-2xl shadow-xl hover:shadow-blue-500/20 active:scale-95 transition-all">
-            حـقـن الـمـقـال فـي الـمـنـظـومـة 🚀
-        </button>
-        
-        <p id="msg" class="text-center font-bold text-lg"></p>
+        <button onclick="launch()" id="launch-btn" class="w-full py-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black text-2xl rounded-2xl shadow-xl active:scale-95 transition-all">2. حـقـن المـقـال الآن 🔥🚀</button>
+        <p id="msg" class="text-center mt-4 font-bold"></p>
     </div>
 
     <script>
-        function magicFAQ() {
-            const raw = document.getElementById('raw-faq').value;
-            const lines = raw.split('\n').filter(line => line.trim() !== "");
+        function cleanText(text) {
+            // كود العفريت: تنظيف علامات الماركدوان الزائدة والرموز الغريبة
+            return text.replace(/[~*_#`]/g, '').replace(/\[.*?\]/g, '').trim();
+        }
+
+        function magicProcess() {
+            // تنظيف المقال والأسئلة
+            const body = document.getElementById('p-body');
+            body.value = cleanText(body.value);
+            
+            const rawFaq = document.getElementById('raw-faq').value;
+            const lines = rawFaq.split('\n').filter(l => l.trim() !== "");
             let faqs = [];
             for (let i = 0; i < lines.length; i += 2) {
                 if (lines[i] && lines[i+1]) {
-                    faqs.push({
-                        q: lines[i].replace(/^\d+\.\s*/, "").trim(),
-                        a: lines[i+1].trim()
-                    });
+                    faqs.push({ q: cleanText(lines[i]), a: cleanText(lines[i+1]) });
                 }
             }
             document.getElementById('p-faq-final').value = JSON.stringify(faqs);
-            alert("تم معالجة الأسئلة بنجاح!");
+            alert("تم تنظيف النص ومعالجة الأسئلة بنجاح!");
         }
 
         async function launch() {
             const btn = document.getElementById('launch-btn');
             const msg = document.getElementById('msg');
+            const adsCode = btoa(unescape(encodeURIComponent(document.getElementById('p-ads').value)));
+            
             const config = {
                 token: document.getElementById('gh-token').value,
                 repo: document.getElementById('gh-repo').value,
                 title: document.getElementById('p-title').value,
                 img: document.getElementById('p-img').value,
-                meta: document.getElementById('p-meta').value,
-                keys: document.getElementById('p-keys').value,
                 body: document.getElementById('p-body').value,
-                faq: document.getElementById('p-faq-final').value
+                faq: document.getElementById('p-faq-final').value,
+                ads: adsCode
             };
 
-            if(!config.token || !config.title) return alert("البيانات ناقصة!");
+            if(!config.token || !config.title) return alert("يا جنرال، البيانات ناقصة!");
 
             btn.disabled = true;
-            msg.innerText = "⏳ جاري الأرشفة والرفع...";
-            msg.className = "text-blue-500 text-center animate-pulse";
+            msg.innerText = "⏳ جاري الحقن المباشر...";
 
-            const fileName = `report-${Date.now()}.md`;
+            const fileName = `post-${Date.now()}.md`;
             const content = `---
 title: "${config.title}"
 image: "${config.img}"
-meta: "${config.meta}"
-keywords: "${config.keys}"
-date: "${new Date().toLocaleDateString('ar-EG')}"
+ads: "${config.ads}"
 faq: ${config.faq || '[]'}
 ---
 ${config.body}`;
@@ -129,17 +99,13 @@ ${config.body}`;
                     method: 'PUT',
                     headers: { 'Authorization': `token ${config.token}`, 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        message: `Intelligence Report: ${config.title}`,
+                        message: `SEO Injection: ${config.title}`,
                         content: btoa(unescape(encodeURIComponent(content)))
                     })
                 });
-                if(res.ok) {
-                    msg.innerText = "✅ تم الحقن! المقال يتصدر الآن.";
-                    msg.className = "text-emerald-500 text-center font-bold";
-                } else { throw new Error(); }
+                if(res.ok) { msg.innerText = "✅ تمت العملية بنجاح!"; msg.className="text-emerald-500"; }
             } catch (e) {
-                msg.innerText = "❌ خطأ في الاتصال.. تأكد من التوكن.";
-                msg.className = "text-red-500 text-center";
+                msg.innerText = "❌ فشل الحقن!"; msg.className="text-red-500";
             } finally { btn.disabled = false; }
         }
     </script>
