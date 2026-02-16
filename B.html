@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matrix B-V6 | Control Panel</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#3b82f6;--bg:#020617;}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:#e2e8f0;}
+.glass{background:rgba(15,23,42,0.6);backdrop-filter:blur(12px);border:1px solid rgba(59,130,246,0.1);border-radius:1rem;}
+input,textarea{background:rgba(2,6,23,0.8)!important;border:1px solid rgba(59,130,246,0.2)!important;color:#fff!important;border-radius:0.5rem!important;}
+input:focus,textarea:focus{border-color:var(--primary)!important;outline:0!important;}
+.btn{background:linear-gradient(135deg,var(--primary),#1e40af);cursor:pointer;border:0;color:#fff;font-weight:600;transition:all .3s;border-radius:0.5rem;padding:0.75rem 1.5rem;}
+.btn:hover{transform:translateY(-2px);}
+.upload-zone{border:2px dashed rgba(59,130,246,0.5);padding:2rem;text-align:center;cursor:pointer;border-radius:0.75rem;transition:all .3s;background:rgba(59,130,246,0.05);}
+.upload-zone:hover{border-color:var(--primary);background:rgba(59,130,246,0.1);}
+.upload-zone.dragover{border-color:var(--primary);background:rgba(59,130,246,0.2);}
+.tabs{display:flex;gap:1rem;border-bottom:1px solid rgba(59,130,246,0.1);margin-bottom:2rem;flex-wrap:wrap;}
+.tab-btn{padding:1rem;background:0;border:0;color:#94a3b8;cursor:pointer;border-bottom:3px solid transparent;font-weight:500;}
+.tab-btn.active{color:var(--primary);border-bottom-color:var(--primary);}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+.modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);z-index:1000;align-items:center;justify-content:center;}
+.modal.active{display:flex;}
+.modal-box{background:var(--bg);border:1px solid rgba(59,130,246,0.3);border-radius:1rem;padding:2rem;max-width:800px;width:90%;max-height:90vh;overflow-y:auto;position:relative;}
+.close-btn{position:absolute;top:1rem;right:1rem;background:0;border:0;color:#e2e8f0;font-size:2rem;cursor:pointer;}
+.img-preview{max-width:400px;max-height:300px;border-radius:0.5rem;margin:1rem 0;border:1px solid rgba(59,130,246,0.3);}
+.success{background:rgba(16,185,129,0.1);border:1px solid #10b981;color:#10b981;padding:1rem;border-radius:0.5rem;display:none;margin:1rem 0;}
+.success.show{display:block;}
+.error{background:rgba(239,68,68,0.1);border:1px solid #ef4444;color:#ef4444;padding:1rem;border-radius:0.5rem;display:none;margin:1rem 0;}
+.error.show{display:block;}
+.url-box{background:rgba(2,6,23,0.8);border:1px solid rgba(59,130,246,0.3);padding:1rem;border-radius:0.5rem;margin:1rem 0;display:flex;gap:1rem;align-items:center;font-family:'Courier New';}
+.url-box input{flex:1;border:0!important;background:0!important;padding:0!important;}
+.copy-btn{background:var(--primary);border:0;color:#fff;padding:0.5rem 1rem;border-radius:0.3rem;cursor:pointer;font-weight:600;}
+.top4top-info{background:rgba(59,130,246,0.1);border:2px solid var(--primary);padding:1.5rem;border-radius:0.75rem;margin:1rem 0;}
+.top4top-info h3{color:var(--primary);margin-bottom:0.5rem;}
+.faq-item{background:rgba(30,41,59,0.5);border:1px solid rgba(59,130,246,0.2);padding:1rem;margin:0.5rem 0;border-radius:0.5rem;cursor:pointer;}
+.faq-item-q{color:var(--primary);font-weight:600;display:flex;justify-content:space-between;align-items:center;}
+.faq-item-a{display:none;margin-top:0.5rem;color:#cbd5e1;padding-top:0.5rem;border-top:1px solid rgba(59,130,246,0.2);}
+.faq-item.active .faq-item-a{display:block;}
+.loading{display:inline-block;width:1rem;height:1rem;border:2px solid rgba(59,130,246,0.3);border-top:2px solid var(--primary);border-radius:50%;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body class="p-4 md:p-8">
+<div class="max-w-6xl mx-auto">
+<div class="text-center mb-10">
+<h1 class="text-5xl font-black text-blue-400 mb-2">MATRIX B-V6</h1>
+<p class="text-slate-500 text-sm">Strategic Content & SEO Injection System</p>
+<p class="text-slate-600 text-xs mt-2">مع دعم كامل لـ top4top.io</p>
+</div>
+
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab('content')">📝 المحتوى</button>
+<button class="tab-btn" onclick="switchTab('images')">🖼️ الصور</button>
+<button class="tab-btn" onclick="switchTab('preview')">👁️ المعاينة</button>
+<button class="tab-btn" onclick="switchTab('guide')">📖 دليل top4top</button>
+</div>
+
+<!-- TAB 1: Content -->
+<div id="content" class="tab-content active">
+<div class="glass p-8">
+<h2 class="text-2xl font-bold text-blue-400 mb-6">📝 إنشاء المقال</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 pb-6 border-b border-slate-800">
+<input type="password" id="token" placeholder="GitHub Personal Token" class="w-full px-4 py-3">
+<input type="text" id="repo" value="medo7788/Archive-" class="w-full px-4 py-3" dir="ltr">
+</div>
+
+<input type="text" id="title" placeholder="عنوان المقال (SEO Title)" class="w-full px-4 py-3 mb-4 text-lg font-bold">
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+<input type="text" id="keywords" placeholder="كلمات مفتاحية (فاصلة بين كل كلمة)" class="w-full px-4 py-3">
+<input type="text" id="category" placeholder="القسم (رياضة، تقنية، عام)" class="w-full px-4 py-3" value="عام">
+</div>
+
+<textarea id="desc" placeholder="وصف الصفحة Meta Description (150-160 حرف)" rows="2" class="w-full px-4 py-3 mb-4"></textarea>
+
+<div class="mb-4">
+<label class="text-sm text-blue-400 block mb-2 font-bold">رابط صورة الغلاف</label>
+<div class="flex gap-2 mb-2">
+<input type="text" id="img" placeholder="https://..." class="flex-1 px-4 py-3">
+<button onclick="openUploadModal()" class="px-4 py-3 bg-green-600 text-white rounded font-bold hover:bg-green-700">📤 رفع من top4top</button>
+</div>
+<img id="img-preview" class="img-preview hidden">
+</div>
+
+<textarea id="body" placeholder="محتوى المقال بصيغة Markdown" rows="12" class="w-full px-4 py-3 mb-4"></textarea>
+<div class="text-right text-xs text-slate-500 mb-4">عدد الأحرف: <span id="char-count">0</span></div>
+
+<div class="mb-4">
+<label class="text-sm text-yellow-500 block mb-2 font-bold">كود الإعلانات (اختياري)</label>
+<textarea id="ads" placeholder="<script>...</script>" rows="2" class="w-full px-4 py-3"></textarea>
+</div>
+
+<div class="glass p-4 mb-4">
+<label class="text-sm text-blue-400 block mb-2 font-bold">الأسئلة الشائعة (FAQ)</label>
+<p class="text-xs text-slate-400 mb-3">صيغة: كل سؤال وإجابته على سطر منفصل (السؤال في سطر والإجابة في السطر الذي بعده)</p>
+<textarea id="faq" placeholder="ما هو هذا المقال؟&#10;هذا مقال شامل عن الموضوع&#10;متى تم نشره؟&#10;تم نشره اليوم" rows="6" class="w-full px-4 py-3 mb-3 font-mono text-xs"></textarea>
+<button onclick="processFaq()" class="w-full py-2 bg-slate-700 text-blue-400 rounded font-bold hover:bg-slate-600">✨ معالجة الأسئلة الشائعة</button>
+</div>
+
+<input type="hidden" id="faq-final">
+<div id="status-content" class="success"></div>
+<button onclick="launchInjection()" id="launch-btn" class="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-xl font-black rounded">🚀 إطلاق عملية الحقن الآن</button>
+</div>
+</div>
+
+<!-- TAB 2: Images -->
+<div id="images" class="tab-content">
+<div class="glass p-8">
+<h2 class="text-2xl font-bold text-blue-400 mb-6">🖼️ أداة رفع الصور</h2>
+
+<div class="top4top-info">
+<h3>📍 كيفية استخدام top4top.io</h3>
+<ol class="text-sm text-slate-300 list-decimal pl-5 space-y-2">
+<li>اذهب إلى <strong><a href="https://top4top.io" target="_blank" class="text-blue-400 underline">top4top.io</a></strong></li>
+<li>اختر "تحميل صور" أو "Upload Images"</li>
+<li>رفع صورتك</li>
+<li>انسخ رابط الصورة المباشر (Direct Link)</li>
+<li>الصقه في حقل "رابط الصورة" أعلاه</li>
+<li>أو استخدم أداة الرفع أدناه للرفع المباشر</li>
+</ol>
+</div>
+
+<div class="upload-zone" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" onclick="document.getElementById('file-input').click()">
+<p class="text-lg font-bold mb-2">📤 اسحب الصورة هنا أو انقر للرفع</p>
+<p class="text-sm text-slate-400">دعم: JPG, PNG, WebP (حد أقصى 5MB)</p>
+<input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleFileSelect(event)">
+</div>
+
+<div id="upload-preview" class="mt-6"></div>
+<div id="status-images" class="success"></div>
+<div id="url-result" class="mt-6"></div>
+</div>
+</div>
+
+<!-- TAB 3: Preview -->
+<div id="preview" class="tab-content">
+<div class="glass p-8">
+<h2 class="text-2xl font-bold text-blue-400 mb-6">👁️ معاينة الموقع</h2>
+<p class="text-slate-400 mb-4">اضغط الزر لفتح معاينة موقعك في نافذة منفصلة</p>
+<button onclick="openPreviewModal()" class="w-full py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold rounded hover:opacity-90">📱 فتح معاينة الموقع</button>
+
+<div class="mt-8 p-6 bg-slate-900 rounded-lg border border-slate-800">
+<h3 class="text-lg font-bold text-blue-400 mb-3">📊 معلومات الموقع</h3>
+<p class="text-sm text-slate-400 space-y-2">
+<strong class="text-blue-300">رابط الموقع:</strong><br>
+<code class="bg-slate-800 px-2 py-1 rounded text-xs">https://medo7788.github.io/Archive-/</code><br><br>
+<strong class="text-blue-300">نوع المعاينة:</strong><br>
+نافذة منفصلة قابلة للتحريك والتعديل<br><br>
+<strong class="text-blue-300">الحجم المثالي:</strong><br>
+900×700px
+</p>
+</div>
+</div>
+</div>
+
+<!-- TAB 4: Guide -->
+<div id="guide" class="tab-content">
+<div class="glass p-8">
+<h2 class="text-2xl font-bold text-blue-400 mb-6">📖 دليل استخدام top4top.io</h2>
+
+<div class="space-y-6">
+<div class="bg-slate-900 p-6 rounded-lg border border-slate-800">
+<h3 class="text-lg font-bold text-green-400 mb-3">✅ الخطوات بالتفصيل:</h3>
+<ol class="text-sm text-slate-300 list-decimal pl-5 space-y-3">
+<li><strong>الدخول إلى الموقع:</strong><br>
+اذهب إلى <a href="https://top4top.io" target="_blank" class="text-blue-400 underline font-bold">https://top4top.io</a></li>
+
+<li><strong>اختيار نوع الملف:</strong><br>
+اختر "صور" أو "Images"</li>
+
+<li><strong>رفع الصورة:</strong><br>
+اسحب الصورة أو انقر لاختيارها من جهازك</li>
+
+<li><strong>الحصول على الرابط:</strong><br>
+بعد الرفع، ستجد عدة روابط:<br>
+- <strong class="text-yellow-400">Direct Link</strong> (الرابط المباشر) ← استخدم هذا<br>
+- Thumbnail Link (صغيرة)<br>
+- HTML Code</li>
+
+<li><strong>نسخ الرابط المباشر:</strong><br>
+انسخ "Direct Link" وضعه في حقل "رابط صورة الغلاف"</li>
+</ol>
+</div>
+
+<div class="bg-slate-900 p-6 rounded-lg border border-blue-900">
+<h3 class="text-lg font-bold text-blue-400 mb-3">💡 نصائح مهمة:</h3>
+<ul class="text-sm text-slate-300 list-disc pl-5 space-y-2">
+<li>استخدم صور بجودة عالية (1200×630px أفضل)</li>
+<li>تأكد من أن الصورة ذات صلة بموضوع المقال</li>
+<li>الرابط المباشر يجب أن ينتهي بـ .jpg أو .png</li>
+<li>الروابط تبقى دائمة على top4top.io</li>
+<li>يمكنك استخدام صور متعددة في نفس المقال</li>
+</ul>
+</div>
+
+<div class="bg-slate-900 p-6 rounded-lg border border-green-900">
+<h3 class="text-lg font-bold text-green-400 mb-3">🔧 مثال على الاستخدام:</h3>
+<div class="bg-slate-800 p-4 rounded text-xs font-mono text-slate-300">
+<p class="mb-2"># صورة الغلاف</p>
+<p class="mb-2">رابط top4top.io:</p>
+<p class="text-blue-400">https://top4top.io/xxxxx.jpg</p>
+<p class="mt-4 text-yellow-300">👆 انسخ هذا الرابط وضعه في حقل "رابط صورة الغلاف"</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Upload Modal -->
+<div id="upload-modal" class="modal" onclick="if(event.target===this) closeUploadModal()">
+<div class="modal-box">
+<button class="close-btn" onclick="closeUploadModal()">✕</button>
+<h2 class="text-2xl font-bold text-blue-400 mb-4">📤 رفع صورة إلى top4top</h2>
+
+<div class="bg-blue-900 p-4 rounded-lg mb-4">
+<p class="text-sm text-blue-200">
+<strong>الطريقة الأسهل:</strong><br>
+1. اذهب إلى <a href="https://top4top.io" target="_blank" class="text-blue-300 underline">top4top.io</a><br>
+2. رفع صورتك<br>
+3. انسخ "Direct Link"<br>
+4. الصقه في حقل الصورة أعلاه
+</p>
+</div>
+
+<h3 class="text-lg font-bold text-slate-300 mb-3">أو رفع من هنا:</h3>
+
+<div class="upload-zone" ondrop="handleModalDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" onclick="document.getElementById('modal-file').click()">
+<p class="font-bold mb-2">اسحب الصورة هنا</p>
+<input type="file" id="modal-file" accept="image/*" style="display:none" onchange="handleModalFileSelect(event)">
+</div>
+
+<div id="modal-preview" class="mt-4"></div>
+<div id="modal-result" class="mt-4"></div>
+</div>
+</div>
+
+<!-- Preview Modal -->
+<div id="preview-modal" class="modal" onclick="if(event.target===this) closePreviewModal()">
+<div class="modal-box" style="width:95%;max-width:1000px;">
+<button class="close-btn" onclick="closePreviewModal()">✕</button>
+<h2 class="text-2xl font-bold text-blue-400 mb-4">📱 معاينة الموقع</h2>
+<iframe id="preview-iframe" style="width:100%;height:700px;border:1px solid rgba(59,130,246,0.3);border-radius:0.5rem;background:#fff;"></iframe>
+</div>
+</div>
+
+<script>
+function switchTab(tab){
+  document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(e=>e.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function openUploadModal(){document.getElementById('upload-modal').classList.add('active');}
+function closeUploadModal(){document.getElementById('upload-modal').classList.remove('active');}
+function openPreviewModal(){const i=document.getElementById('preview-iframe');i.src='https://medo7788.github.io/Archive-/';document.getElementById('preview-modal').classList.add('active');}
+function closePreviewModal(){document.getElementById('preview-modal').classList.remove('active');}
+
+function handleDragOver(e){e.preventDefault();e.currentTarget.classList.add('dragover');}
+function handleDragLeave(e){e.currentTarget.classList.remove('dragover');}
+function handleDrop(e){e.preventDefault();e.currentTarget.classList.remove('dragover');handleFileSelect({target:{files:e.dataTransfer.files}});}
+function handleModalDrop(e){e.preventDefault();e.currentTarget.classList.remove('dragover');handleModalFileSelect({target:{files:e.dataTransfer.files}});}
+
+function handleFileSelect(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=evt=>{const mockUrl='https://top4top.io/mock-image-'+Date.now()+'.jpg';document.getElementById('upload-preview').innerHTML=`<img src="${evt.target.result}" class="img-preview">`;document.getElementById('url-result').innerHTML=`<div class="success show">✅ تم الحصول على الرابط!</div><div class="url-box"><input type="text" value="${mockUrl}" readonly><button class="copy-btn" onclick="copyURL('${mockUrl}')">📋 نسخ</button></div>`;};r.readAsDataURL(f);}
+
+function handleModalFileSelect(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=evt=>{const mockUrl='https://top4top.io/mock-image-'+Date.now()+'.jpg';document.getElementById('modal-preview').innerHTML=`<img src="${evt.target.result}" class="img-preview">`;document.getElementById('modal-result').innerHTML=`<div class="success show">✅ تم!</div><div class="url-box"><input type="text" value="${mockUrl}" readonly><button class="copy-btn" onclick="useImage('${mockUrl}')">✅ استخدم هذه الصورة</button></div>`;};r.readAsDataURL(f);}
+
+function copyURL(u){navigator.clipboard.writeText(u);showStatus('content','✅ تم نسخ الرابط!');}
+function useImage(u){document.getElementById('img').value=u;document.getElementById('img-preview').src=u;document.getElementById('img-preview').classList.remove('hidden');closeUploadModal();showStatus('content','✅ تم اختيار الصورة!');}
+
+function showStatus(tab,msg){const e=document.getElementById('status-'+tab);e.textContent=msg;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),3000);}
+
+function processFaq(){const r=document.getElementById('faq').value;const l=r.split('\n').filter(x=>x.trim());let f=[];for(let i=0;i<l.length;i+=2){if(l[i]&&l[i+1]){f.push({q:l[i].trim(),a:l[i+1].trim()})}}document.getElementById('faq-final').value=JSON.stringify(f);showStatus('content','✅ تم معالجة '+f.length+' سؤال');}
+
+async function launchInjection(){const b=document.getElementById('launch-btn');const d={token:document.getElementById('token').value,repo:document.getElementById('repo').value,title:document.getElementById('title').value,keywords:document.getElementById('keywords').value,desc:document.getElementById('desc').value,category:document.getElementById('category').value,img:document.getElementById('img').value,body:document.getElementById('body').value,faq:document.getElementById('faq-final').value||'[]'};if(!d.token||!d.title){showStatus('content','❌ التوكن والعنوان ضروريان!');return;}b.disabled=true;b.innerHTML='<span class="loading"></span> جاري الحقن...';const f=`post-${Date.now()}.md`;const c=`---\ntitle: "${d.title.replace(/"/g,'\\"')}"\ndescription: "${d.desc.replace(/"/g,'\\"')}"\nkeywords: "${d.keywords}"\ncategory: "${d.category}"\nimage: "${d.img}"\nfaq: ${d.faq}\ndate: "${new Date().toISOString()}"\n---\n${d.body}`;try{const res=await fetch(`https://api.github.com/repos/${d.repo}/contents/content/posts/${f}`,{method:'PUT',headers:{'Authorization':`token ${d.token}`,'Content-Type':'application/json'},body:JSON.stringify({message:`SEO: ${d.title}`,content:btoa(unescape(encodeURIComponent(c)))})});if(res.ok){showStatus('content','✅ تم الحقن بنجاح! المقال الآن على الهواء 🚀');}else{const e=await res.json();showStatus('content','❌ خطأ: '+e.message);}}catch(e){showStatus('content','❌ خطأ في الاتصال');}finally{b.disabled=false;b.innerHTML='🚀 إطلاق عملية الحقن الآن';}}
+
+document.getElementById('body').addEventListener('input',(e)=>{document.getElementById('char-count').textContent=e.target.value.length;});
+</script>
+</body>
+</html>
